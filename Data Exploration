@@ -1,0 +1,41 @@
+--Expoer all objects in the database
+select * from INFORMATION_SCHEMA.TABLES
+
+-- Explore all columns in the database
+ select * from INFORMATION_SCHEMA.columns
+ where table_name = 'dim_customers'
+  --Explore all country our customers come from
+  select distinct country from  gold.dim_customers
+
+  -- Explore all categories "The majore division"
+  select distinct category, subcategory, product_name from Gold.dim_products
+  order by 1,2,3
+
+
+  -- find the date of first and last order
+  select 
+  min(sls_order_dt ) first_date, 
+  MAX(sls_order_dt) last_date 
+  from Gold.fact_sales
+
+  -- how many year of sales available
+    select 
+  min(sls_order_dt ) first_date, 
+  MAX(sls_order_dt) last_date, 
+  datediff(month,min(sls_order_dt),
+  max(sls_order_dt)) as month_range
+  from Gold.fact_sales
+  
+
+  --- what is young and oldest customer
+  select
+  datediff(year,min(birthdate), getdate()) -(2026-2014)
+  as Old_Age_customer,        
+  datediff(year,max(birthdate), getdate())-(2026-2014)
+  as Young_Age_customer
+  from Gold.dim_customers
+
+
+
+
+
